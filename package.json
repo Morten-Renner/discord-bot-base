@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
+    "start": "node src/index.js",
     "watch": "tsc --watch"
   },
   "repository": {
