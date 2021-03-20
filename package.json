@@ -1,0 +1,23 @@
+{
+  "name": "discord-bot-base",
+  "version": "1.0.0",
+  "description": "Modular base \"template\" for Discord bots",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Morten-Renner/discord-bot-base.git"
+  },
+  "keywords": [
+    "Discord",
+    "Bot",
+    "Template"
+  ],
+  "author": "Morten Renner",
+  "bugs": {
+    "url": "https://github.com/Morten-Renner/discord-bot-base/issues"
+  },
+  "homepage": "https://github.com/Morten-Renner/discord-bot-base#readme"
+}
