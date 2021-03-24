@@ -1,6 +1,6 @@
 import { IRoutineEvents } from "./IRoutineEvents";
 
-export class Routine implements IRoutineEvents {
+export abstract class Routine implements IRoutineEvents {
 
     /**
      * Describes wether the routine failed or not.
