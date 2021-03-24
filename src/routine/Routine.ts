@@ -65,8 +65,6 @@ export abstract class Routine implements IRoutineEvents {
     /**
      * Do everything the setup needs.
      *
-     * You got 30 Seconds it or will timeout.
-     *
      * All onSetup functions will be executed parallel.
      */
      async onSetup() {
@@ -76,9 +74,7 @@ export abstract class Routine implements IRoutineEvents {
     /**
      * Do everything that is required for the setup.
      *
-     * You got 10 Seconds it will timeout.
-     *
-     * All onSetup functions will be executed parallel.
+     * All Routine#onPreSetup functions will be executed parallel.
      */
     async onPreSetup() {
 
