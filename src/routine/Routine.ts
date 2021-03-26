@@ -7,7 +7,7 @@ export abstract class Routine implements IRoutineEvents {
      */
     private _failed: boolean = false;
 
-    get failed () {
+    get failed() {
         return this._failed;
     }
 
@@ -16,8 +16,8 @@ export abstract class Routine implements IRoutineEvents {
      */
     critical: boolean;
 
-    name:string;
-    description:string;
+    name: string;
+    description: string;
     interval: NodeJS.Timeout | undefined;
 
     /**
@@ -28,7 +28,7 @@ export abstract class Routine implements IRoutineEvents {
      * @param description A short description of the Routine
      * @param critical Critical routines force the bot to shutdown on failure.
      */
-    constructor(name:string = "no name", description:string = "This module does not have a description.", critical: boolean = false) {
+    constructor(name: string = "no name", description: string = "This module does not have a description.", critical: boolean = false) {
         this.name = name;
         this.description = description;
         this.critical = critical;
@@ -39,8 +39,8 @@ export abstract class Routine implements IRoutineEvents {
      * @param interval in ms
      * @throws if already registered
      */
-    registerInterval(interval:number) {
-        if(this.interval == null) {
+    registerInterval(interval: number) {
+        if (this.interval == null) {
             this.interval = setInterval(this.onInterval.bind(this), interval);
         } else {
             throw new Error("Failed attempt to register an second intervall in routine: " + this.name);
@@ -51,7 +51,7 @@ export abstract class Routine implements IRoutineEvents {
      * Clears the intervall
      */
     unregisterInterval() {
-        if(this != undefined)
+        if (this != undefined)
             clearInterval(this.interval!);
     }
 
@@ -67,8 +67,8 @@ export abstract class Routine implements IRoutineEvents {
      *
      * All onSetup functions will be executed parallel.
      */
-     async onSetup() {
-        this._failed = true;
+    onSetup(): Promise<any> | null {
+        return null;
     }
 
     /**
@@ -76,15 +76,19 @@ export abstract class Routine implements IRoutineEvents {
      *
      * All Routine#onPreSetup functions will be executed parallel.
      */
-    async onPreSetup() {
-
+    onPreSetup(): Promise<any> | null {
+        return null;
     }
 
     /**
      * Runs after the setup is complete.
      */
-    async onPostSetup() {
+    onPostSetup(): Promise<any> | null {
+        return null;
+    }
 
+    onCriticalRoutineFail(routine: Routine): Promise<any> | null {
+        return null;
     }
 
     /**
@@ -92,11 +96,11 @@ export abstract class Routine implements IRoutineEvents {
      *
      * Causes a shutdown if the Routine is critical.
      */
-    public fail () {
+    public fail() {
         this._failed = true;
 
-        if(this.critical) {
-            // TODO: contact RoutineHandler to shut down
+        if (this.critical) {
+            global.routineHandler.onCriticalRoutineFail(this);
         }
     }
 

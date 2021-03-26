@@ -17,13 +17,18 @@ export default class Config<TConfig> {
      * Loads the data according to the specified configName
      */
     public load() {
-        return new Promise<void>((resolve, reject) => {
-            fs.promises.readFile(this.getFileName()).then(buffer => {
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                let buffer = await fs.promises.readFile(this.getFileName());
                 this.data = JSON.parse(buffer.toString());
                 resolve();
-            }).catch(err => {
-                reject(err);
-            });
+            } catch (error) {
+                if(error.code === "ENOENT"){
+                    reject(new Error(`ENOENT config file "${this.configName}" not found at ${this.getFileName()}`))
+                } else {
+                    reject(error)
+                }
+            }
         });
     }
 
