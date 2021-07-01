@@ -1,28 +1,22 @@
+import { Routine } from "./routine/Routine";
 import RoutineHandler from "./routine/RoutineHandler";
 
 global.routineHandler = new RoutineHandler();
 
-let fail = false;
+export function registerRoutine(constructor: Function) {
+    console.log("constructor" + constructor);
+
+    global.routineHandler.routines.push(<Routine><any> constructor);
+}
 
 global.routineHandler.onPreSetup()!
-    .catch(err => {
-        fail = true;
-        console.error(`PreSetup failed: ${err}`);
+    .then(() => {
+        return global.routineHandler.onSetup()!
     })
     .then(() => {
-        if(!fail)
-            return global.routineHandler.onSetup()!
-    }).catch(err => {
-        fail = true;
-        console.error(`${global.configs.Icons.data.status_fail} Setup failed: ${err}`);
-    })
-    .then(() => {
-        if(!fail)
-            return global.routineHandler.onPostSetup()!
-    }).catch(err => {
-        fail = true;
-        console.error(`${global.configs.Icons.data.status_fail} PostSetup failed: ${err}`);
+        return global.routineHandler.onPostSetup()!
     }).then(() => {
-        if(!fail)
-            console.log(`${global.configs.Icons.data.status_success} Setup complete!`);
+        console.log(`${global.configs.Icons.data.status_success} Setup complete!`);
+    }).catch(err => {
+        console.error(`${global.configs.Icons.data.status_fail} Setup failed: ${err}`);
     });
