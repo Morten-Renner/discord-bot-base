@@ -1,4 +1,4 @@
-# discord-bot-base
+# discord-bot TypeScript Node.js template
 
 ## production setup
 
